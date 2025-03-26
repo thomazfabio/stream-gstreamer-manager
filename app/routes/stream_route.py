@@ -16,6 +16,10 @@ async def start_stream(request: StartStreamRequest, streamScaleW: int = 640, str
 async def list_streams():
     return await stream_controller.list_streams()
 
-@router.get("/stop_stream")
-def stop_stream():
-    return "Stream parado com sucesso!"
+@router.get("/stop_stream/")
+async def stop_stream(stream_id: str):
+    return await stream_controller.stop_stream(stream_id)
+
+@router.get("/stop_all_streams")
+async def stop_all_streams():
+    return await stream_controller.stop_all_streams()

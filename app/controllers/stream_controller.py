@@ -66,19 +66,19 @@ async def start_stream(rtsp_url):
 # Função para parar um pipeline específico
 async def stop_stream(pipeline_id):
     if pipeline_id not in processes:
-        return f"Pipeline {pipeline_id} não encontrado!"
+        return f"Strean {pipeline_id} não encontrado!"
 
     process, conn = processes[pipeline_id]
     if not process.is_alive():
         del processes[pipeline_id]
-        return f"Pipeline {pipeline_id} já foi encerrado."
+        return f"Strean {pipeline_id} já foi encerrado."
     
     conn.send("STOP")
     process.join(timeout=2)
     if process.is_alive():
         process.terminate()
     del processes[pipeline_id]
-    return f"Pipeline {pipeline_id} parado com sucesso!"
+    return f"Strean {pipeline_id} parado com sucesso!"
 
 # Função para listar todos os pipelines em execução
 async def list_streams():
@@ -88,7 +88,7 @@ async def list_streams():
 async def stop_all_streams():
     for pipeline_id in list(processes.keys()):
         await stop_stream(pipeline_id)
-    return "Todos os pipelines foram parados."
+    return "Todos os streams foram parados."
 
 #monitora os pipelines
 async def monitor_pipelines():
