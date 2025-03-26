@@ -1,13 +1,17 @@
 from fastapi import APIRouter
 from ..controllers import services_controller
 import uuid
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.post("/start_test_gstreamer")
-async def start_test():
-    rtsp = 'rtsp://th:th0202@5.189.183.118:8554/transit_VGA_640x480_1'
-    pipeline_id = await services_controller.start_test_gstreamer(rtsp)  # Inicia o pipeline e recebe o ID
+# Definir o modelo para entrada de dados
+class StreamRequest(BaseModel):
+    rtsp_url: str  # O JSON deve conter esse campo
+
+@router.post("/start_test_gstreamer/")
+async def start_test(request: StreamRequest):
+    pipeline_id = await services_controller.start_test_gstreamer(request.rtsp_url)  # Inicia o pipeline e recebe o ID
     return {"pipeline_id": pipeline_id}  # Retorna o ID para o usuário
 
 @router.post('/list_pipelines')
